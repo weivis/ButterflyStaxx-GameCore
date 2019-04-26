@@ -16,6 +16,8 @@ JudgeRewardLineModule_Return_conditionResult | 返回模型与数据的条件结
 JudgeContinuousResult() | 判断连接数
 JudgeContinuousReward() | 返回奖励结果
 GamemMode() | 多游戏模式判断入口
+Bet() | 倍数控制器
+
 
 ## Json Api
 ```javascript

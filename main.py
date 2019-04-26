@@ -15,6 +15,8 @@ wildid = 8 #野生id
 def ButterflyStaxx():
     '''游戏入口'''
 
+    Betdata = 0
+
     #生成矩阵并返回矩阵
     Matrix = GenerateMatrix()
 
@@ -25,7 +27,7 @@ def ButterflyStaxx():
 
 
     #判断符合规则的线条模型 返回
-    dict, RewardTypes, AllContinuousReward, AllContinuous = JudgeRewardLineModule(data,RewardTypes)
+    dict, RewardTypes, AllContinuousReward, AllContinuous = JudgeRewardLineModule(data,RewardTypes,Bet(Betdata))
     '''
         {"index":索引,"module":模型,"complete":完整数据,"Continuous":连接数,"RewardTypes":奖励ico类型,"ContinuousReward":连接奖励数}
     '''
@@ -42,6 +44,13 @@ def returndata(dict, RewardTypes, AllContinuousReward, AllContinuous):
         "AllContinuous":AllContinuous
     })
 
+
+def Bet(Bet):
+    if Bet == 0 or Bet == 1:
+        outBet = Bet + 1
+    else:
+        outBet = Bet
+    return outBet
 
 def GenerateReward():
     '''生成奖励'''
@@ -92,7 +101,7 @@ def WriteReward(data):
     return data, RewardTypes
 
 
-def JudgeRewardLineModule(data,Reward):
+def JudgeRewardLineModule(data,Reward,Bet):
     '''判断module是否符合'''
 
     AllContinuousReward = 0
@@ -115,7 +124,8 @@ def JudgeRewardLineModule(data,Reward):
             "module":module,
             "complete":complete,
             "Continuous":Continuous,
-            "ContinuousReward":ContinuousReward
+            "ContinuousReward":ContinuousReward,
+            "BetContinuousReward": ContinuousReward * int(Bet)
         })
 
         AllContinuousReward = AllContinuousReward + ContinuousReward
