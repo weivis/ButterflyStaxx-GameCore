@@ -1,4 +1,5 @@
 import random
+import json
 
 #游戏线条模型
 GameLineModule = [
@@ -34,12 +35,12 @@ def ButterflyStaxx():
 
 
 def returndata(dict, RewardTypes, AllContinuousReward, AllContinuous):
-    return {
+    return json.dumps({
         "data":dict,
         "RewardTypes":RewardTypes,
         "AllContinuousReward":AllContinuousReward,
         "AllContinuous":AllContinuous
-    }
+    })
 
 
 def GenerateReward():
