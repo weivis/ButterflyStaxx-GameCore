@@ -1,6 +1,6 @@
 # ButterflyStaxx-GameCore
-Butterfly Staxx 是国外的博彩类游戏 通过python语言还原游戏核心逻辑(仅供参考)
-查看游戏核心文件 [GameCore](https://github.com/ShenVi/ButterflyStaxx-GameCore/blob/master/main.py)
+Butterfly Staxx 是国外的博彩类游戏 通过python语言还原游戏核心逻辑(仅供参考).
+查看游戏核心文件 [GameCore](https://github.com/ShenVi/ButterflyStaxx-GameCore/blob/master/main.py).
 
 ## 模块介绍
 模块名 | 作用
