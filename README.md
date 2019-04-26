@@ -1,5 +1,17 @@
 # ButterflyStaxx-GameCore
 Butterfly Staxx 是国外的博彩类游戏 我通过python语言还原游戏核心逻辑(仅供参考)
+
+## 模块介绍
+Field | Description
+------|------------
+**id** | The user's unique username. Case-sensitive. Required.
+delay | Delay in minutes between a comment's creation and its visibility to other users.
+**created** | Creation date of the user, in [Unix Time](http://en.wikipedia.org/wiki/Unix_time).
+**karma** | The user's karma.
+about | The user's optional self-description. HTML.
+submitted | List of the user's stories, polls and comments.
+
+## Api Json
 ```javascript
 {
     "data": [
