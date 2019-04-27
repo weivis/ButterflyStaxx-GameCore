@@ -12,10 +12,10 @@ GameLineModule = [
 #特殊游戏设置
 wildid = 8 #野生id
 
-def ButterflyStaxx():
+def ButterflyStaxx(bet):
     '''游戏入口'''
 
-    Betdata = 0
+    Betdata = int(bet)
 
     #生成矩阵并返回矩阵
     Matrix = GenerateMatrix()
@@ -32,17 +32,16 @@ def ButterflyStaxx():
         {"index":索引,"module":模型,"complete":完整数据,"Continuous":连接数,"RewardTypes":奖励ico类型,"ContinuousReward":连接奖励数}
     '''
 
-    jsondata = returndata(dict, RewardTypes, AllContinuousReward, AllContinuous)
-    print(jsondata)
+    return returndata(dict, RewardTypes, AllContinuousReward, AllContinuous, Matrix)
 
-
-def returndata(dict, RewardTypes, AllContinuousReward, AllContinuous):
-    return json.dumps({
+def returndata(dict, RewardTypes, AllContinuousReward, AllContinuous, Matrix):
+    return {
+        "matrix":Matrix,
         "data":dict,
         "RewardTypes":RewardTypes,
         "AllContinuousReward":AllContinuousReward,
         "AllContinuous":AllContinuous
-    })
+    }
 
 
 def Bet(Bet):
@@ -51,6 +50,7 @@ def Bet(Bet):
     else:
         outBet = Bet
     return outBet
+
 
 def GenerateReward():
     '''生成奖励'''
@@ -92,12 +92,14 @@ def WriteReward(data):
         #print(i) #打印当前循环的列表排序
 
         for d in data[i]: #循环d = data[1 ~ 5]的值
+            print(i," - ",d)
 
             if d[0] == 1:
                 d.append(random.choice([RewardTypes,wildid]))    #Reward获奖值, wildid野生值
             else:
                 d.append(random.choice(FalseReward))        #FalseReward非中奖值
             
+    print(data)
     return data, RewardTypes
 
 
@@ -113,7 +115,7 @@ def JudgeRewardLineModule(data,Reward,Bet):
         index, module, result, complete = JudgeRewardLineModule_Return_conditionResult(data,GameLineModule[i])
 
         #判断该数据与模型产生多少连接数
-        Continuous = JudgeContinuousResult(result)
+        Continuous = JudgeContinuousResult(complete)
 
         #返回奖励结果
         ContinuousReward = JudgeContinuousReward(Continuous, Reward)
@@ -123,6 +125,7 @@ def JudgeRewardLineModule(data,Reward,Bet):
             "index":index,
             "module":module,
             "complete":complete,
+            "ContinuousData":result,
             "Continuous":Continuous,
             "ContinuousReward":ContinuousReward,
             "BetContinuousReward": ContinuousReward * int(Bet)
@@ -142,7 +145,7 @@ def JudgeRewardLineModule_Return_conditionResult(data,module):
 
     for i in range(5):
 
-        #print("数据的第",i,"列",data[i])
+        #print("数据的第",i,"列",data[i])JudgeRewardLineModule
         #print("数据的第",i,"列","第",e,"个",data[i][e])
         #print(module[i])
 
@@ -159,18 +162,27 @@ def JudgeRewardLineModule_Return_conditionResult(data,module):
 
 def JudgeContinuousResult(data):
     '''判断连接数 = 1保持循环 = 0跳出循环'''
-    Continuouspcs = 0
+    iflist = []
     for i in data:
-        if i == 1:
-            Continuouspcs = Continuouspcs + 1
-        else:
-            break
-    return Continuouspcs
+        iflist.append(i[0])
+
+    if iflist[0] + iflist[1] + iflist[2] + iflist[3] + iflist[4] == 5:
+        return 5
+
+    elif iflist[0] + iflist[1] + iflist[2] + iflist[3] == 4:
+        return 4
+
+    elif iflist[0] + iflist[1] + iflist[2]  == 3:
+        return 3
+
+    else:
+        return 0
+
 
 
 def JudgeContinuousReward(continuous,types):
     '''返回奖励结果 什么类型 满足多少条件 返回多少获奖'''
-    if types == 0 or 1 or 2 or 3 or 8:   #0 1 2 3
+    if types == 0 or types == 1 or types == 2 or types == 3 or types == 8:   #0 1 2 3
         if continuous == 3:
             return 5
         elif continuous == 4:
@@ -180,7 +192,7 @@ def JudgeContinuousReward(continuous,types):
         else:
             return 0
 
-    elif types == 4 or 8:                #4
+    elif types == 4 or types == 8:                #4
         if continuous == 3:
             return 15
         elif continuous == 4:
@@ -190,7 +202,7 @@ def JudgeContinuousReward(continuous,types):
         else:
             return 0
 
-    elif types == 5 or 6 or 7 or 8:      #5 6 7 
+    elif types == 5 or types == 6 or types == 7 or types == 8:      #5 6 7 
         if continuous == 3:
             return 10
         elif continuous == 4:
@@ -210,4 +222,4 @@ def GamemMode(data):
 
     return False
 
-ButterflyStaxx()
+ButterflyStaxx(0)
